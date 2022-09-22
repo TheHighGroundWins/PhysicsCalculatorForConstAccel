@@ -27,10 +27,10 @@ public class Calculate : MonoBehaviour
     private TimeAnswer timeAnswer;
     
     //text properties
-    Toggle DisplacementToggle;
+    Toggle DisToggle;
     Toggle VIToggle;
     Toggle VFToggle;
-    Toggle ACToggle;
+    Toggle AToggle;
     Toggle TimeToggle;
     
     TMP_InputField DisplacementTextMeshPro;
@@ -44,15 +44,15 @@ public class Calculate : MonoBehaviour
     private double DIS;
     private double VI;
     private double VF;
-    private double AC;
+    private double A;
     private double TIME;
 
     private void Start()
     {
-        DisplacementToggle = DisplacementToggleGameObject.GetComponent<Toggle>();
+        DisToggle = DisplacementToggleGameObject.GetComponent<Toggle>();
         VIToggle = VIToggleGameObject.GetComponent<Toggle>();
         VFToggle = VFToggleGameObject.GetComponent<Toggle>();
-        ACToggle = ACToggleGameObject.GetComponent<Toggle>();
+        AToggle = ACToggleGameObject.GetComponent<Toggle>();
         TimeToggle = TimeToggleGameObject.GetComponent<Toggle>();
 
         DisplacementTextMeshPro = DisplacementTextMeshProGameObject.GetComponent<TMP_InputField>();
@@ -68,14 +68,14 @@ public class Calculate : MonoBehaviour
     public void OnClick()
     {
 
-        if (DisplacementToggle.isOn)
+        if (DisToggle.isOn)
             DIS = Double.Parse(DisplacementTextMeshPro.text);
         if(VIToggle.isOn)
             VI = Double.Parse(VITextMeshPro.text);
         if (VFToggle.isOn)
             VF = Double.Parse(VFTextMeshPro.text);
-        if(ACToggle.isOn)
-            AC = Double.Parse(ACTextMeshPro.text);
+        if(AToggle.isOn)
+            A = Double.Parse(ACTextMeshPro.text);
         if(TimeToggle.isOn)
         TIME = Double.Parse(timeTextMeshPro.text);
         
@@ -83,20 +83,20 @@ public class Calculate : MonoBehaviour
         if (timeAnswer.DisplacementBool)
         {
             //if everything is ticked
-            if (DisplacementToggle.isOn && VIToggle.isOn &&
-                VFToggle.isOn && ACToggle.isOn && TimeToggle.isOn)
+            if (DisToggle.isOn && VIToggle.isOn &&
+                VFToggle.isOn && AToggle.isOn && TimeToggle.isOn)
             {
-                Answer.text = (VI*TIME+0.5*AC*Squared(TIME)).ToString();
+                Answer.text = (VI*TIME+0.5*A*Square(TIME)).ToString();
             }
             
-            if (VIToggle.isOn && ACToggle.isOn && TimeToggle.isOn)
+            if (VIToggle.isOn && AToggle.isOn && TimeToggle.isOn)
             {
-                Answer.text = (VI*TIME+0.5*AC*Squared(TIME)).ToString();
+                Answer.text = (VI*TIME+0.5*A*Square(TIME)).ToString();
             }
             
-            if (VIToggle.isOn && TimeToggle.isOn && ACToggle.isOn)
+            if (VIToggle.isOn && TimeToggle.isOn && AToggle.isOn)
             {
-                Answer.text = ((Squared(VF)-Squared(VI))/(2*AC)).ToString();
+                Answer.text = ((Square(VF)-Square(VI))/(2*A)).ToString();
             }
 
             if (VIToggle.isOn && VFToggle.isOn && TimeToggle.isOn)
@@ -104,9 +104,9 @@ public class Calculate : MonoBehaviour
                 Answer.text = (0.5*(VI+VF)*TIME).ToString();
             }
 
-            if (VFToggle.isOn&&TimeToggle.isOn&&ACToggle.isOn)
+            if (VFToggle.isOn&&TimeToggle.isOn&&AToggle.isOn)
             {
-                Answer.text = (VF*TIME-0.5*AC*Squared(TIME)).ToString();
+                Answer.text = (VF*TIME-0.5*A*Square(TIME)).ToString();
             }
         }
         
@@ -114,22 +114,130 @@ public class Calculate : MonoBehaviour
         if (timeAnswer.InitialVelocityBool)
         {
             //if everything is ticked
-            if (DisplacementToggle.isOn && VIToggle.isOn &&
-                VFToggle.isOn && ACToggle.isOn && TimeToggle.isOn)
+            if (DisToggle.isOn && VIToggle.isOn &&
+                VFToggle.isOn && AToggle.isOn && TimeToggle.isOn)
             {
-                Answer.text = (VF - AC * TIME).ToString();
+                Answer.text = (VF - A * TIME).ToString();
             }
-            
-            
+
+            if (VFToggle.isOn && AToggle.isOn && TimeToggle.isOn)
+            {
+                Answer.text = (VF - A * TIME).ToString();
+            }
+
+            if (DisToggle.isOn && AToggle.isOn && TimeToggle.isOn)
+            {
+                Answer.text=((DIS-0.5*A*Square(TIME))/TIME).ToString();
+            }
+
+            if (VFToggle.isOn && AToggle.isOn && DisToggle.isOn)
+            {
+                Answer.text = (SquareRoot(Square(VF)-2*A*DIS)).ToString();
+            }
+
+            if (DisToggle.isOn && TimeToggle.isOn && VFToggle.isOn)
+            {
+                Answer.text = ((2*VF)/TIME-VF).ToString();
+            }
         }
 
-
+        
         //for final velocity
+        if (timeAnswer.FinalVelocityBool)
+        {
+            //if everything is ticked
+            if (DisToggle.isOn && VIToggle.isOn &&
+                VFToggle.isOn && AToggle.isOn && TimeToggle.isOn)
+            {
+                Answer.text = (VF+A*TIME).ToString();
+            }
+
+            if (VIToggle.isOn && AToggle.isOn && TimeToggle.isOn)
+            {
+                Answer.text = (VF+A*TIME).ToString();
+            }
+
+            if (VIToggle.isOn && DisToggle.isOn && AToggle.isOn)
+            {
+                Answer.text = (SquareRoot(Square(VI)+2*A*DIS)).ToString();
+            }
+
+            if (VIToggle.isOn && DisToggle.isOn && TimeToggle.isOn)
+            {
+                Answer.text = ((2*DIS)/TIME-VI).ToString();
+            }
+
+            if (DisToggle.isOn && AToggle.isOn && TimeToggle.isOn)
+            {
+                Answer.text = ((DIS+0.5*A*Square(TIME))/TIME).ToString();
+            }
+            
+        }
+        
         //for acceleration
+        if (timeAnswer.AccelerationBool)
+        {
+            //if everything is ticked
+            if (DisToggle.isOn && VIToggle.isOn &&
+                VFToggle.isOn && AToggle.isOn && TimeToggle.isOn)
+            {
+                Answer.text = ((VF-VI)/TIME).ToString();
+            }
+
+            if (VFToggle.isOn && VIToggle.isOn && TimeToggle.isOn)
+            {
+                Answer.text = ((VF-VI)/TIME).ToString();
+            }
+
+            if (DisToggle.isOn && VIToggle.isOn && TimeToggle.isOn)
+            {
+                Answer.text = ((2*(DIS-VI*TIME))/Square(TIME)).ToString();
+            }
+
+            if (VFToggle && VIToggle && DisToggle.isOn)
+            {
+                Answer.text = ((Square(VF)-Square(VI))/2*DIS).ToString();
+            }
+
+            if (DisToggle.isOn && VFToggle.isOn && TimeToggle.isOn)
+            {
+                Answer.text = ((2*(DIS-VF*TIME))/Square(TIME)).ToString();
+            }
+        }
+        
         //for time
+        if (timeAnswer.TimeBool)
+        {
+            //if everything is ticked
+            if (DisToggle.isOn && VIToggle.isOn &&
+                VFToggle.isOn && AToggle.isOn && TimeToggle.isOn)
+            {
+                Answer.text = ((VF-VI)/A).ToString();
+            }
+
+            if (VFToggle.isOn && VIToggle.isOn && AToggle.isOn)
+            {
+                Answer.text = ((VF-VI)/A).ToString();
+            }
+
+            if (VIToggle.isOn && AToggle.isOn && DisToggle.isOn)
+            {
+                Answer.text = (-VI+((SquareRoot(Square(VI)-4*0.5*A*-DIS))/2*0.5*A)).ToString();
+            }
+
+            if (VFToggle.isOn && AToggle.isOn && DisToggle.isOn)
+            {
+                Answer.text = (-VF+((SquareRoot(Square(VF)-4*0.5*A*-DIS))/2*-0.5*A)).ToString();
+            }
+
+            if (DisToggle.isOn && VIToggle.isOn && VFToggle.isOn)
+            {
+                Answer.text = ((2*DIS)/(VI+VF)).ToString();
+            }
+        }
     }
 
-    double Squared(double number)
+    double Square(double number)
     {
         return (double)(Mathf.Pow((float)number,2));
     }
