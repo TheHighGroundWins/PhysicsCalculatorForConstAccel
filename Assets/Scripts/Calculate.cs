@@ -188,7 +188,9 @@ public class Calculate : MonoBehaviour
             {
                 Answer.text = ((VF-VI)/TIME).ToString();
             }
-
+            
+            
+            //bug causes answer to be 0
             if (DisToggle.isOn && VIToggle.isOn && TimeToggle.isOn)
             {
                 Answer.text = ((2*(DIS-VI*TIME))/Square(TIME)).ToString();
@@ -203,6 +205,7 @@ public class Calculate : MonoBehaviour
             {
                 Answer.text = ((2*(DIS-VF*TIME))/Square(TIME)).ToString();
             }
+            
         }
         
         //for time
