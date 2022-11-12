@@ -104,7 +104,7 @@ public class Calculate : MonoBehaviour
                 Answer.text = (0.5*(VI+VF)*TIME).ToString();
             }
 
-            if (VFToggle.isOn&&TimeToggle.isOn&&AToggle.isOn)
+            if (VFToggle.isOn && TimeToggle.isOn && AToggle.isOn)
             {
                 Answer.text = (VF*TIME-0.5*A*Square(TIME)).ToString();
             }
@@ -193,13 +193,14 @@ public class Calculate : MonoBehaviour
             //bug causes answer to be 0
             if (DisToggle.isOn && VIToggle.isOn && TimeToggle.isOn)
             {
-                Answer.text = ((2*(DIS-VI*TIME))/Square(TIME)).ToString();
+                Answer.text = ((2 * (DIS - VI * TIME)) / Square(TIME)).ToString();
             }
 
-            if (VFToggle && VIToggle && DisToggle.isOn)
+            if (VFToggle.isOn && VIToggle.isOn && DisToggle.isOn)
             {
                 Answer.text = ((Square(VF)-Square(VI))/2*DIS).ToString();
             }
+            
 
             if (DisToggle.isOn && VFToggle.isOn && TimeToggle.isOn)
             {
